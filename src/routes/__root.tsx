@@ -9,9 +9,11 @@ import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/mode-toggle";
+import type { AuthState } from "@/features/auth/AuthContext";
 
 export interface RouterContext {
   queryClient: QueryClient;
+  auth: AuthState;
 }
 
 export const Route = createRootRouteWithContext<RouterContext>()({
@@ -47,7 +49,6 @@ function RootLayout() {
         <Outlet />
       </main>
 
-      {/*  */}
       <TanStackRouterDevtools position="bottom-left" />
       <ReactQueryDevtools initialIsOpen={false} buttonPosition="bottom-right" />
     </div>
