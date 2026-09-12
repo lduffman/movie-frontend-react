@@ -4,7 +4,9 @@ const passwordPattern = `^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&+=])(?=\
 
 export const registerFormSchema = z
   .object({
-    username: z.email().min(1, { message: "Le nom d'utilisateur est requis" }),
+    username: z
+      .email("L'adresse e-mail n'est pas valide")
+      .min(1, { message: "L'adresse e-mail est requise" }),
     password: z
       .string()
       .min(8, {
@@ -26,8 +28,20 @@ export const registerFormSchema = z
   });
 
 export const loginFormSchema = z.object({
-  username: z.email().min(1, { message: "Le nom d'utilisateur est requis" }),
+  username: z
+    .email("L'adresse e-mail n'est pas valide")
+    .min(1, { message: "L'adresse e-mail est requise" }),
   password: z.string().min(1, { message: "Le mot de passe est requis" }),
+});
+
+export const loginSearchSchema = z.object({
+  username: z.string().optional(),
+  redirect: z
+    .string()
+    .optional()
+    .transform((value) =>
+      value && /^\/(?!\/)/.test(value) ? value : undefined,
+    ),
 });
 
 export const tokenResponseSchema = z.object({

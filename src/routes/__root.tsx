@@ -3,12 +3,11 @@ import {
   createRootRouteWithContext,
   Link,
   Outlet,
-  useNavigate,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/mode-toggle";
+import { AuthMenu } from "@/features/auth/components/AuthMenu";
 import type { AuthState } from "@/features/auth/AuthContext";
 
 export interface RouterContext {
@@ -21,7 +20,6 @@ export const Route = createRootRouteWithContext<RouterContext>()({
 });
 
 function RootLayout() {
-  const navigate = useNavigate();
   return (
     <div className="flex min-h-svh flex-col">
       <header className="border-b">
@@ -35,13 +33,10 @@ function RootLayout() {
           >
             Films
           </Link>
-          <Button
-            className="ml-auto text-sm"
-            onClick={() => navigate({ to: "/" })}
-          >
-            Se connecter
-          </Button>
-          <ModeToggle />
+          <div className="ml-auto flex items-center gap-2">
+            <AuthMenu />
+            <ModeToggle />
+          </div>
         </nav>
       </header>
 
