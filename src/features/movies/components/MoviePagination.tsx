@@ -36,6 +36,7 @@ export function MoviePagination({
       // survivent donc au changement de page sans être recopiés.
       renderPrevious={(control) => (
         <PreviousLink
+          from="/movies/"
           to="/movies"
           search={(prev) => ({ ...prev, page: control.page })}
           disabled={control.disabled}
@@ -44,6 +45,7 @@ export function MoviePagination({
       )}
       renderNext={(control) => (
         <NextLink
+          from="/movies/"
           to="/movies"
           search={(prev) => ({ ...prev, page: control.page })}
           disabled={control.disabled}

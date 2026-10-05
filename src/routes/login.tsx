@@ -6,6 +6,7 @@ import {
   useRouter,
 } from "@tanstack/react-router";
 import { isAxiosError } from "axios";
+import { revalidateLogic } from "@tanstack/react-form";
 import { useAppForm } from "@/components/form/app-form";
 import {
   Card,
@@ -50,10 +51,11 @@ function LoginPage() {
       username: search.username ?? "",
       password: "",
     },
-    validators: {
-      onSubmit: loginFormSchema,
-      onBlur: loginFormSchema,
-    },
+    // Validation au 1er envoi, puis à chaque frappe. Pas de validation au blur :
+    // le schéma porte sur tout le formulaire, valider au blur d'un champ marquerait
+    // en erreur ceux pas encore remplis (ex. la confirmation du mot de passe).
+    validationLogic: revalidateLogic(),
+    validators: { onDynamic: loginFormSchema },
     onSubmit: async ({ value }) => {
       await login.mutateAsync(value);
     },

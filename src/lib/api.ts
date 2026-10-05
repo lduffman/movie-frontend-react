@@ -14,11 +14,12 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-/** Sur 401, on supprime le jeton stocké. L'utilisateur sera redirigé vers la page de login */
+/** Sur 401, on supprime le token stocké. L'utilisateur sera redirigé vers la page de login */
 api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (axios.isAxiosError(error) && error.response?.status === 401) {
+      console.warn("Unauthorized request, clearing token");
       clearToken();
     }
     return Promise.reject(error);

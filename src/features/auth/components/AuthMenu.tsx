@@ -1,7 +1,6 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/features/auth/AuthContext";
-import { DEFAULT_REDIRECT } from "@/features/auth/constants";
 
 export function AuthMenu() {
   const { isAuthenticated, logout } = useAuth();
@@ -20,7 +19,7 @@ export function AuthMenu() {
       variant="outline"
       onClick={() => {
         logout();
-        navigate({ to: DEFAULT_REDIRECT });
+        navigate({ to: "/movies" });
       }}
     >
       Se déconnecter

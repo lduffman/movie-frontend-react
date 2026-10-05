@@ -119,10 +119,11 @@ export function MovieFilters({
           }
         >
           <SelectTrigger id="movies-sort" className={control}>
-            <SelectValue placeholder="Pertinence" />
+            <SelectValue placeholder="Par défaut" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value={ANY}>Pertinence</SelectItem>
+            {/* sans `sort`, le backend applique son défaut : title,asc */}
+            <SelectItem value={ANY}>Par défaut</SelectItem>
             {SORT_OPTIONS.map((option) => (
               <SelectItem key={option} value={option}>
                 {SORT_LABELS[option]}

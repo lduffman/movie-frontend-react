@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { isAxiosError } from "axios";
+import { revalidateLogic } from "@tanstack/react-form";
 import { useAppForm } from "@/components/form/app-form";
 import {
   Card,
@@ -41,10 +42,11 @@ function RegisterPage() {
       password: "",
       confirmPassword: "",
     },
-    validators: {
-      onSubmit: registerFormSchema,
-      onBlur: registerFormSchema,
-    },
+    // Validation au 1er envoi, puis à chaque frappe. Pas de validation au blur :
+    // le schéma porte sur tout le formulaire, valider au blur d'un champ marquerait
+    // en erreur ceux pas encore remplis (ex. la confirmation du mot de passe).
+    validationLogic: revalidateLogic(),
+    validators: { onDynamic: registerFormSchema },
     onSubmit: async ({ value }) => {
       await register.mutateAsync(value);
     },

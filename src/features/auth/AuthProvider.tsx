@@ -1,21 +1,15 @@
-import { useCallback, useMemo, useState } from "react";
-import { queryClient } from "@/lib/queryClient";
-import { clearToken, getToken, setToken } from "@/lib/token";
+import { useCallback, useMemo, useSyncExternalStore } from "react";
+import { clearToken, getToken, setToken, subscribeToken } from "@/lib/token";
 import { AuthContext, type AuthState } from "./AuthContext";
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [token, setTokenState] = useState<string | null>(() => getToken());
+  // Le jeton n'est pas recopié dans un état React : on s'abonne au store.
+  // Le `clearToken()` de l'intercepteur axios, sur un 401, suffit donc à faire
+  // basculer `isAuthenticated` — sans événement ni callback à câbler.
+  const token = useSyncExternalStore(subscribeToken, getToken);
 
-  const login = useCallback((nextToken: string) => {
-    setToken(nextToken);
-    setTokenState(nextToken);
-  }, []);
-
-  const logout = useCallback(() => {
-    clearToken();
-    setTokenState(null);
-    queryClient.clear();
-  }, []);
+  const login = useCallback((nextToken: string) => setToken(nextToken), []);
+  const logout = useCallback(() => clearToken(), []);
 
   const value = useMemo<AuthState>(
     () => ({ token, isAuthenticated: token !== null, login, logout }),
