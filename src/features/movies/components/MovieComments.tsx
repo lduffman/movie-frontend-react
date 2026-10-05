@@ -4,6 +4,7 @@ import { PaginationBar } from "@/components/pagination-bar";
 import { RouteError } from "@/components/route-status";
 import { PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import { CommentCard } from "@/features/movies/components/CommentCard";
+import { MovieCommentForm } from "@/features/movies/components/MovieCommentForm";
 import { movieCommentsQuery } from "@/features/movies/queries";
 
 const COMMENTS_PAGE_SIZE = 6;
@@ -83,6 +84,8 @@ export function MovieComments({ movieId }: { movieId: string }) {
           )}
         />
       )}
+
+      <MovieCommentForm movieId={movieId} onCreated={() => setPage(0)} />
     </section>
   );
 }

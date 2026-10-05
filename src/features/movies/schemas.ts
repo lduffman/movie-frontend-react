@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { pageSchema, searchText } from "../../lib/common.schemas";
 
 export const movieSchema = z.object({
   id: z.uuid(),
@@ -27,19 +28,9 @@ export const commentSchema = z.object({
 export type Movie = z.infer<typeof movieSchema>;
 export type Comment = z.infer<typeof commentSchema>;
 
-export const moviePageSchema = z.object({
-  items: z.array(movieSchema),
-  page: z.number().int(),
-  size: z.number().int(),
-  total: z.number().int(),
-});
+export const moviePageSchema = pageSchema(movieSchema);
 
-export const commentPageSchema = z.object({
-  items: z.array(commentSchema),
-  page: z.number().int(),
-  size: z.number().int(),
-  total: z.number().int(),
-});
+export const commentPageSchema = pageSchema(commentSchema);
 
 export type MoviePage = z.infer<typeof moviePageSchema>;
 export type CommentPage = z.infer<typeof commentPageSchema>;
@@ -58,8 +49,6 @@ export const SORT_OPTIONS = [
   "votes,desc",
 ] as const;
 
-const searchText = z.union([z.string(), z.number()]).transform(String);
-
 export const movieSearchSchema = z.object({
   q: searchText.optional(),
   genre: searchText.optional(),
@@ -75,3 +64,13 @@ export const movieCommentSearchSchema = z.object({
 
 export type MovieSearch = z.infer<typeof movieSearchSchema>;
 export type MovieCommentSearch = z.infer<typeof movieCommentSearchSchema>;
+
+export const commentCreateSchema = z.object({
+  title: z
+    .string()
+    .min(1, "Donnez un titre à votre commentaire")
+    .max(255, "255 caractères maximum"),
+  content: z.string().min(1, "Votre commentaire est vide"),
+});
+
+export type CommentCreate = z.infer<typeof commentCreateSchema>;

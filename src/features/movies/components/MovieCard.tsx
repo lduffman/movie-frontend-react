@@ -8,8 +8,10 @@ import {
 } from "@/components/ui/card";
 import type { Movie } from "@/features/movies/schemas";
 import { StarIcon } from "lucide-react";
+import type { ReactNode } from "react";
 
-export function MovieCard({ movie }: { movie: Movie }) {
+export function MovieCard({ movie, extra }: { movie: Movie; extra?: ReactNode }) {
+
   return (
     <Link
       to="/movies/$movieId"
@@ -52,6 +54,7 @@ export function MovieCard({ movie }: { movie: Movie }) {
               </>
             )}
           </CardDescription>
+          {extra}
         </CardHeader>
 
         {movie.genres.length > 0 && (

@@ -8,7 +8,7 @@ import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ModeToggle } from "@/components/mode-toggle";
 import { AuthMenu } from "@/features/auth/components/AuthMenu";
-import type { AuthState } from "@/features/auth/AuthContext";
+import { type AuthState } from "@/features/auth/AuthContext";
 
 export interface RouterContext {
   queryClient: QueryClient;
@@ -32,6 +32,12 @@ function RootLayout() {
             className="text-sm text-muted-foreground transition-colors hover:text-foreground [&.active]:text-foreground"
           >
             Films
+          </Link>
+          <Link
+            to="/me/library"
+            className="text-sm text-muted-foreground transition-colors hover:text-foreground [&.active]:text-foreground"
+          >
+            Ma bibliothèque
           </Link>
           <div className="ml-auto flex items-center gap-2">
             <AuthMenu />

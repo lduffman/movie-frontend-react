@@ -5,6 +5,7 @@ import { movieQuery } from "@/features/movies/queries";
 import { Separator } from "@/components/ui/separator";
 import { MovieComments } from "@/features/movies/components/MovieComments";
 import { StarIcon } from "lucide-react";
+import { LibraryEntryCard } from "@/features/library/components/LibraryEntryCard";
 
 export const Route = createFileRoute("/movies/$movieId")({
   component: MovieDetailPage,
@@ -34,15 +35,16 @@ function MovieDetailPage() {
       </Link>
 
       <div className="flex flex-col gap-6 sm:flex-row">
-        {movie.posterUrl && (
-          <img
-            src={movie.posterUrl}
-            alt=""
-            className="w-48 shrink-0 rounded-lg border object-cover"
-          />
-        )}
-
-        <div className="space-y-3">
+        <div className="flex w-48 shrink-0 flex-col gap-4">
+          {movie.posterUrl && (
+            <img
+              src={movie.posterUrl}
+              alt=""
+              className="w-full rounded-lg border object-cover"
+            />
+          )}
+        </div>
+        <div className="min-w-0 flex-1 space-y-3">
           <h1 className="text-2xl font-medium">
             {movie.title}{" "}
             <span className="text-muted-foreground">({movie.year})</span>
@@ -95,6 +97,9 @@ function MovieDetailPage() {
             <p className="text-lg leading-relaxed">{movie.plot}</p>
           )}
         </div>
+      </div>
+      <div className="flex ">
+        <LibraryEntryCard movieId={movieId} />
       </div>
       <MovieComments key={movieId} movieId={movieId} />
     </article>

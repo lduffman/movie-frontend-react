@@ -1,5 +1,7 @@
 import { api } from "@/lib/api";
 import type {
+  Comment,
+  CommentCreate,
   CommentPage,
   Movie,
   MovieCommentSearch,
@@ -29,6 +31,15 @@ export async function getMovieComments(
   const { data } = await api.get<CommentPage>(`/movies/${movieId}/comments`, {
     params: search,
   });
+  return data;
+}
+
+/** `POST /movies/{id}/comments` — authentifié. */
+export async function createMovieComment(
+  movieId: string,
+  body: CommentCreate,
+): Promise<Comment> {
+  const { data } = await api.post<Comment>(`/movies/${movieId}/comments`, body);
   return data;
 }
 

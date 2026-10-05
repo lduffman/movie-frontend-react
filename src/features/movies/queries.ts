@@ -1,11 +1,13 @@
-import { queryOptions } from "@tanstack/react-query";
+import { mutationOptions, queryOptions } from "@tanstack/react-query";
 import {
+  createMovieComment,
   getMovie,
   getMovieComments,
   getMovieGenres,
   searchMovies,
 } from "@/features/movies/api";
 import type {
+  CommentCreate,
   MovieCommentSearch,
   MovieSearch,
 } from "@/features/movies/schemas";
@@ -35,4 +37,10 @@ export const movieGenresQuery = () =>
   queryOptions({
     queryKey: ["movies", "genres"],
     queryFn: () => getMovieGenres(),
+  });
+
+export const createMovieCommentMutation = (movieId: string) =>
+  mutationOptions({
+    mutationKey: ["movies", "detail", movieId, "comments", "create"],
+    mutationFn: (body: CommentCreate) => createMovieComment(movieId, body),
   });
